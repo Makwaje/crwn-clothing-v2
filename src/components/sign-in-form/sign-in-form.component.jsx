@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 
 import {
   createUserDocumentFromAuth,
@@ -7,6 +7,8 @@ import {
 } from "../../utils/firebase/firebase.utils";
 
 import FormInput from "../form-input/form-input.component";
+
+import { UserContext } from "../../context/user.context";
 
 import "./sign-in-form.styles.scss";
 
@@ -21,6 +23,12 @@ const SighInForm = () => {
   const [FormFelids, setFormFelids] = useState(defaultFormFelids);
   const { email, password } = FormFelids;
 
+  const { setCurrentUser } = useContext(UserContext);
+
+  const resetFormFelids = () => {
+    setFormFelids(defaultFormFelids);
+  };
+
   /// AJAX
   const signInWithGoogle = async () => {
     const { user } = await signInWithGooglePopup();
@@ -28,22 +36,17 @@ const SighInForm = () => {
     await createUserDocumentFromAuth(user);
   };
 
-  // console.log(FormFelids);
-
-  const resetFormFelids = () => {
-    setFormFelids(defaultFormFelids);
-  };
-
   const handleSubmit = async (event) => {
     event.preventDefault();
 
     try {
       console.log(email, password);
-      const response = await signInAuthUserWithEmailAndPassword(
+      const { user } = await signInAuthUserWithEmailAndPassword(
         email,
         password
       );
-      console.log(response);
+      setCurrentUser(user);
+
       resetFormFelids();
     } catch (error) {
       switch (error.code) {

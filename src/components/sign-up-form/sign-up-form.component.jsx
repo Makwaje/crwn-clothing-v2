@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 
 import {
   CreateAuthUserWithEmailAndPassword,
@@ -11,6 +11,8 @@ import "./sign-up-form.styles.scss";
 
 import Button from "../../components/button/button.component";
 
+import { UserContext } from "../../context/user.context";
+
 const defaultFormFelids = {
   displayName: "",
   email: "",
@@ -22,7 +24,7 @@ const SighUpForm = () => {
   const [FormFelids, setFormFelids] = useState(defaultFormFelids);
   const { displayName, email, password, confirmPassword } = FormFelids;
 
-  // console.log(FormFelids);
+  const { setCurrentUser } = useContext(UserContext);
 
   const resetFormFelids = () => {
     setFormFelids(defaultFormFelids);
@@ -41,8 +43,9 @@ const SighUpForm = () => {
         email,
         password
       );
+      setCurrentUser(user);
 
-      await createUserDocumentFromAuth(user, { displayName });
+      createUserDocumentFromAuth(user, { displayName });
       resetFormFelids();
     } catch (error) {
       if (error.code === "auth/email-already-in-use") {

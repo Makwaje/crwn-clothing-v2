@@ -22,7 +22,7 @@ const SighUpForm = () => {
   const [FormFelids, setFormFelids] = useState(defaultFormFelids);
   const { displayName, email, password, confirmPassword } = FormFelids;
 
-  console.log(FormFelids);
+  // console.log(FormFelids);
 
   const resetFormFelids = () => {
     setFormFelids(defaultFormFelids);
@@ -30,7 +30,6 @@ const SighUpForm = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log(password, confirmPassword);
 
     if (password !== confirmPassword) {
       alert("Your Password doesn't match");

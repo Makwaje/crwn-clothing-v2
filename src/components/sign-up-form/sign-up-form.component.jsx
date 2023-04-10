@@ -11,8 +11,6 @@ import "./sign-up-form.styles.scss";
 
 import Button from "../../components/button/button.component";
 
-import { UserContext } from "../../context/user.context";
-
 const defaultFormFelids = {
   displayName: "",
   email: "",
@@ -23,8 +21,6 @@ const defaultFormFelids = {
 const SighUpForm = () => {
   const [FormFelids, setFormFelids] = useState(defaultFormFelids);
   const { displayName, email, password, confirmPassword } = FormFelids;
-
-  const { setCurrentUser } = useContext(UserContext);
 
   const resetFormFelids = () => {
     setFormFelids(defaultFormFelids);
@@ -43,7 +39,6 @@ const SighUpForm = () => {
         email,
         password
       );
-      setCurrentUser(user);
 
       createUserDocumentFromAuth(user, { displayName });
       resetFormFelids();

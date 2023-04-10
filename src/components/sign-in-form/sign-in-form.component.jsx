@@ -8,8 +8,6 @@ import {
 
 import FormInput from "../form-input/form-input.component";
 
-import { UserContext } from "../../context/user.context";
-
 import "./sign-in-form.styles.scss";
 
 import Button from "../button/button.component";
@@ -23,17 +21,13 @@ const SighInForm = () => {
   const [FormFelids, setFormFelids] = useState(defaultFormFelids);
   const { email, password } = FormFelids;
 
-  const { setCurrentUser } = useContext(UserContext);
-
   const resetFormFelids = () => {
     setFormFelids(defaultFormFelids);
   };
 
   /// AJAX
   const signInWithGoogle = async () => {
-    const { user } = await signInWithGooglePopup();
-    console.log(user);
-    await createUserDocumentFromAuth(user);
+    await signInWithGooglePopup();
   };
 
   const handleSubmit = async (event) => {
@@ -45,7 +39,7 @@ const SighInForm = () => {
         email,
         password
       );
-      setCurrentUser(user);
+      // setCurrentUser(user);
 
       resetFormFelids();
     } catch (error) {
